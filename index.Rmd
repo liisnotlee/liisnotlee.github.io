@@ -10,12 +10,20 @@ Hi, thanks for visiting. My name is Li, not Lee.
 
 Note: intentionally not including my full name as it is a public website. 
 
+# About Me
+
 I'm currently a PhD student at Columbia University, Department of Biomedical Informatics (DBMI).
 
-I earned my master degree in Nutrition from Cornell University and my bachelor's degree in Computer Science from New York Univeristy.
+I earned my master degree in Nutrition from Cornell University and my bachelor's degree in Computer Science from New York University.
 
 I'm also a registered dietitian. I worked at the University of Rochester Medical Center (URMC) for my dietetic internship. 
 
-I'm interested in personalized nutrition and nutrition informatics. Here are some past projects related to data science course ([P8105](https://p8105.com/index.html)) I did before:
+I'm interested in personalized nutrition and nutrition informatics. 
 
-- Link to [about page](about.html)
+Here are some past projects I did before:
+
+- [Data science in R](https://github.com/liisnotlee/p8105_mtp_ml5218)
+- [Scuba Diving Simulator](https://github.com/krasner75/ScubaDiving) for UI Design 
+
+## Instacart Data Dashboard
+I also explored instacart dataset a bit. You can visit the [data dashboard](dashboard.html) to find some interesting plots.

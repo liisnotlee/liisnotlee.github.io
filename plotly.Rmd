@@ -14,76 +14,124 @@ library(p8105.datasets)
 
 Load Instacart
 
-Get a much smaller dataset for easier processing & deployment on internet
 ```{r}
-data("nyc_airbnb")
-nyc_airbnb = 
-  nyc_airbnb |> 
-  mutate(
-    rating = review_scores_location/2
-  ) |> 
+data("instacart")
+data = 
+  instacart |> 
   select(
-    neighbourhood_group, neighbourhood, rating, price, room_type, lat, long
-  ) |> 
+    order_id, product_id, reordered, user_id, order_number, order_dow, order_hour_of_day, days_since_prior_order, product_name, aisle_id, aisle, department
+  ) 
+```
+
+
+Bar Plot of Most Popular Aisle:
+
+Create a bar plot of the most frequently products ordered from which asile. This can show which aisles are top sellers or consistently reordered.
+```{r}
+data |> 
+  count(aisle)  |> 
   filter(
-    neighbourhood_group == "Manhattan",
-    room_type == "Entire home/apt",
-    price <=500,
-    price >=100
-  )
-```
-
-
-Interactive scatterplot
-```{r}
-nyc_airbnb |>
-  mutate(
-    label = str_c("Price: $", price, "\nRating: ",rating)
+    n >=10000
   ) |> 
+  mutate(aisle = fct_reorder(aisle, n, .desc = TRUE)) |>  
   plot_ly(
-    x = ~lat, y= ~ long, color = ~price,
-    text = ~label,
-    type = "scatter", mode = "markers", alpha = 0.5
-  )
-```
-
-Boxplot
-```{r}
-nyc_airbnb |> 
-  mutate(
-    neighbourhood = fct_reorder(neighbourhood, price)
+    x = ~aisle, y = ~n, type = "bar"
   ) |> 
-  plot_ly(
-    x=~neighbourhood,y=~price, color=~neighbourhood,
-    type="box", colors = "viridis"
+  layout(
+    title = "Distribution of Instacart Aisles with Over 10,000 Orders",
+    xaxis = list(
+      title = "Aisle"
+    ),
+    yaxis = list(
+      title = "Order Count"
+    )
   )
 ```
 
-Bar charts
 
-how many airbnbs in each neighborhood
+Line Plot of Orders by Hour of Day
+
+This plot shows the distribution of customer traffic throughout a typical day, revealing peak shopping times.
 ```{r}
-nyc_airbnb |> 
-  count(neighbourhood) |> 
-  mutate(neighbourhood = fct_reorder(neighbourhood, n)) |> 
+order_volume_by_hour <- data |>
+  distinct(order_id, .keep_all = TRUE) |>
+  count(order_hour_of_day)
+
+order_volume_by_hour |>
   plot_ly(
-    x=~neighbourhood, y=~n, type = "bar"
+    x = ~order_hour_of_day, 
+    y = ~n, 
+    type = 'scatter', 
+    mode = 'lines',
+    line = list(color = 'blue') 
+  ) |>
+  layout(
+    title = "Order Volume by Hour of Day",
+    xaxis = list(title = "Hour of Day (0-23)", dtick = 1),
+    yaxis = list(title = "Total Orders"),
+    hovermode = "x unified"
   )
 ```
 
-NOT recommended:
-convert ggplot to ggplotly
-```{r}
-scatter_ggplot = 
-  nyc_airbnb |>
-  ggplot(aes(x = lat, y = long, color = price)) +
-  geom_point(alpha = 0.25) +
-  coord_cartesian()
 
-ggplotly(scatter_ggplot)
+Line Plot of Orders by Day of Week
+
+This plot shows the distribution of customer traffic throughout a typical week, revealing peak shopping times.
+```{r}
+order_volume_by_day <- data |>
+  distinct(order_id, .keep_all = TRUE) |>
+  count(order_dow)
+
+order_volume_by_day |>
+  plot_ly(
+    x = ~order_dow, 
+    y = ~n, 
+    type = 'scatter', 
+    mode = 'lines',
+    line = list(color = 'purple')
+  ) |>
+  layout(
+    title = "Order Volume by Day of Weed",
+    xaxis = list(title = "Day of Week (0-6", dtick = 1),
+    yaxis = list(title = "Total Orders"),
+    hovermode = "x unified"
+  )
 ```
 
+Scatterplot of Order Size vs. Days Since Prior Order
 
-# Making dashboard
+```{r}
+order_metrics <- data |>
+  group_by(order_id) |>
+  summarize(
+    order_size = n(), 
+    days_since_prior_order = first(days_since_prior_order),
+    .groups = 'drop'
+  ) |>
+  filter(!is.na(days_since_prior_order))
 
+sample_order <- order_metrics |>
+  slice_sample(n = 10000, replace = FALSE) |> 
+  mutate(
+    label = str_c("Days:", days_since_prior_order, 
+                  "\nOrder size:", order_size)
+  )
+
+sample_order |>
+  plot_ly(
+    x = ~days_since_prior_order, 
+    y = ~order_size,
+    type = 'box',
+    text = ~label
+  ) |>
+  layout(
+    title = "Order Size vs. Days Since Prior Order (Random 10,000 Orders)",
+    xaxis = list(
+      title = "Days Since Prior Order",
+      zeroline = FALSE,
+      tickvals = c(1, 7, 14, 21, 28, 30)
+    ),
+    yaxis = list(title = "Number of Products in Order (Order Size)")
+  )
+```
 
