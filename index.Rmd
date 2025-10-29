@@ -25,5 +25,5 @@ Here are some past projects I did before:
 - [Data science in R](https://github.com/liisnotlee/p8105_mtp_ml5218)
 - [Scuba Diving Simulator](https://github.com/krasner75/ScubaDiving) for UI Design 
 
-## Instacart Data Dashboard
+# Instacart Data Dashboard
 I also explored instacart dataset a bit. You can visit the [data dashboard](dashboard.html) to find some interesting plots.
