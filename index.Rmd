@@ -1,22 +1,21 @@
 ---
-title: "My awesome website"
+title: "liisnotlee's Website"
 output: 
   html_document:
     toc: true
     toc_float: true
 ---
 
-# This is Jeff's awesome website
+Hi, thanks for visiting. My name is Li, not Lee. 
 
-Some TEXT.
+Note: intentionally not including my full name as it is a public website. 
 
-Link to [course website](https://p8105.com/index.html)
+I'm currently a PhD student at Columbia University, Department of Biomedical Informatics (DBMI).
 
-Link to [about page](about.html)
+I earned my master degree in Nutrition from Cornell University and my bachelor's degree in Computer Science from New York Univeristy.
 
-Go to [plot page](plots.html)
+I'm also a registered dietitian. I worked at the University of Rochester Medical Center (URMC) for my dietetic internship. 
 
-Fonts from fontawesome.com
+I'm interested in personalized nutrition and nutrition informatics. Here are some past projects related to data science course ([P8105](https://p8105.com/index.html)) I did before:
 
-
-![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+- Link to [about page](about.html)
